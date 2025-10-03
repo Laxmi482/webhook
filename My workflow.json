@@ -1,0 +1,335 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "webhook-window",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -592,
+        0
+      ],
+      "id": "9f1bda13-8157-4346-889a-671722699cdd",
+      "name": "Webhook",
+      "webhookId": "925ebae6-07f8-46e6-87ec-987da9aad89c"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = {\n  \"_index\": \"wazuh-alerts-4.x-2025.09.19\",\n  \"_id\": \"wuNIYZkBDG7_ljFHTgcb\",\n  \"_score\": null,\n  \"_source\": {\n    syscheck: {\n      uname_after: \"usertr23\",\n      mtime_after: \"2025-09-19T09:22:32\",\n      size_after: \"69\",\n      gid_after: \"1000\",\n      mode: \"realtime\",\n      path: \"/home/usertr23/Desktop/eicar.com\",\n      sha1_after: \"cf8bd9dfddff007f75adf4c2be48005cea317c62\",\n      gname_after: \"usertr23\",\n      uid_after: \"1000\",\n      perm_after: \"rw-rw-r--\",\n      event: \"added\",\n      md5_after: \"69630e4574ec6798239b091cda43dca0\",\n      sha256_after: \"131f95c51cc819465fa1797f6ccacf9d494aaaff46fa3eac73ae63ffbdfd8267\",\n      inode_after: 930062\n    },\n    agent: {\n      ip: \"192.168.110.180\",\n      name: \"linux\",\n      id: \"001\"\n    },\n    manager: {\n      name: \"ubuntuuu\"\n    },\n    rule: {\n      firedtimes: 1,\n      level: 5,\n      description: \"File added to the system.\"\n    },\n    full_log: \"File '/home/usertr23/Desktop/eicar.com' added\\nMode: realtime\\n\",\n    timestamp: \"2025-09-19T09:22:22.528+0000\"\n  }\n};\n\n// Example: return it so n8n can use it\nreturn [{ json: data }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        0
+      ],
+      "id": "2f5adb3b-c59f-4bae-a817-7b408704e9f8",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "preBuiltAgentsCalloutHttpRequest": "",
+        "httpVariantWarning": "",
+        "curlImport": "",
+        "method": "GET",
+        "": "",
+        "url": "=https://www.virustotal.com/api/v3/files/\n131f95c51cc819465fa1797f6ccacf9d494aaaff46fa3eac73ae63ffbdfd8267",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "virusTotalApi",
+        "provideSslCertificates": false,
+        "sendQuery": false,
+        "sendHeaders": false,
+        "sendBody": false,
+        "options": {},
+        "infoMessage": ""
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -176,
+        0
+      ],
+      "id": "84b890fa-1648-460b-bf2c-c0dadd74e8c2",
+      "name": "VirusTotal HTTP Request",
+      "extendsCredential": "virusTotalApi",
+      "alwaysOutputData": false,
+      "credentials": {
+        "virusTotalApi": {
+          "id": "igW8N2snzPsO3MdP",
+          "name": "VirusTotal account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        32,
+        0
+      ],
+      "id": "3f3be0d1-d721-4a3f-a47a-6ce4897d8b56",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "html": "<!doctype html>\n<html>\n<head>\n  <meta charset=\"utf-8\"/>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n  <style>\n    body { background:#111; font-family: Arial, sans-serif; margin:0; padding:20px; }\n    .card {\n      background:#1b1b1b;\n      border-radius:10px;\n      padding:20px 24px;\n      color:#eee;\n      max-width:650px;\n      margin:0 auto;\n    }\n    h2 {\n      color:#00cfff;\n      font-size:20px;\n      margin-top:0;\n      display:flex;\n      align-items:center;\n      gap:8px;\n    }\n    .field { margin:8px 0; }\n    .field strong { color:#bbb; }\n    .status { color:#ff4d4d; font-weight:bold; }\n    .tags { margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; }\n    .tag {\n      background:#333;\n      color:#ddd;\n      padding:4px 10px;\n      border-radius:6px;\n      font-size:12px;\n    }\n    .stats { margin-top:8px; color:#aaa; }\n  </style>\n</head>\n<body>\n  <div class=\"card\">\n    <h2>🧪 File Threat Summary</h2>\n\n    <div class=\"field\"><strong>File:</strong> FAMA.pdf</div>\n    <div class=\"field\"><strong>SHA256:</strong> 275a021bbfb6489e54d471899fdb9d1663fc695ec2fe2a2c4538aabf651fd0f</div>\n    <div class=\"field\"><strong>Reputation:</strong> Good</div>\n    <div class=\"field\"><strong>Threat Label:</strong> eicar_test</div>\n    <div class=\"field\"><strong>Magic Signature:</strong> EICAR virus test files</div>\n    <div class=\"field\"><strong>Status:</strong> <span class=\"status\">Suspicious</span></div>\n\n    <div class=\"field\"><strong>Analysis Stats:</strong></div>\n    <div class=\"stats\">\n      • Malicious: 65<br>\n      • Suspicious: 0<br>\n      • Harmless: 0<br>\n      • Undetected: 4\n    </div>\n\n    <div class=\"field\"><strong>Tags:</strong></div>\n    <div class=\"tags\">\n      <span class=\"tag\">legit</span>\n      <span class=\"tag\">known-distributor</span>\n      <span class=\"tag\">attachment</span>\n      <span class=\"tag\">idle</span>\n      <span class=\"tag\">powershell</span>\n      <span class=\"tag\">long-sleeps</span>\n      <span class=\"tag\">direct-cpu-clock-access</span>\n      <span class=\"tag\">via-tor</span>\n    </div>\n  </div>\n</body>\n</html>\n\n\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        304,
+        -160
+      ],
+      "id": "3b0dc77b-ea71-4481-9d11-414f02c30175",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "8aa44373-fea0-4193-85ce-9ac9786b355f"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        288,
+        96
+      ],
+      "id": "c6237be3-ccd9-4b14-80b6-f8c7a8124ebc",
+      "name": "Switch",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        768,
+        -16
+      ],
+      "id": "60d186e9-b94f-4d25-a01c-52a86714dfd5",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=⚠️ File Threat Detected\n\n**File:** {{$json[\"data\"][\"attributes\"][\"meaningful_name\"]}}\n**SHA256:** {{$json[\"data\"][\"attributes\"][\"sha256\"].slice(0,20)}}...\n**Reputation:** {{$json[\"data\"][\"attributes\"][\"reputation\"]}}\n**Threat Label:** {{$json[\"data\"][\"attributes\"][\"popular_threat_classification\"][\"suggested_threat_label\"] || \"N/A\"}}\n**Magic Signature:** {{$json[\"data\"][\"attributes\"][\"magic\"]}}\n**Status:** {{ $json[\"data\"][\"attributes\"][\"last_analysis_stats\"][\"malicious\"] > 0 ? \"malicious\" : \"clean\" }}\n\n📊 **Analysis Stats:**\n- Malicious: {{$json[\"data\"][\"attributes\"][\"last_analysis_stats\"][\"malicious\"]}}\n- Suspicious: {{$json[\"data\"][\"attributes\"][\"last_analysis_stats\"][\"suspicious\"]}}\n- Harmless: {{$json[\"data\"][\"attributes\"][\"last_analysis_stats\"][\"harmless\"]}}\n- Undetected: {{$json[\"data\"][\"attributes\"][\"last_analysis_stats\"][\"undetected\"]}}\n\n🏷 **Tags:** {{ ($json[\"data\"][\"attributes\"][\"tags\"] || []).join(\", \") || \"none\" }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        496,
+        96
+      ],
+      "id": "34510abf-ea40-48ab-85d2-936e08088f7f",
+      "name": "Discord",
+      "webhookId": "90dad17b-637e-47d0-8a22-161abbc39652",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "YbzHxYp3cgIgLuIB",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "proshani548@gmail.com",
+        "subject": "alert",
+        "message": "hello",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        512,
+        -160
+      ],
+      "id": "ddaa4474-9dd5-4160-81da-f2c6b439d855",
+      "name": "Send a message",
+      "webhookId": "e7fff441-1a8d-42f5-8146-263a60c12654",
+      "executeOnce": false,
+      "retryOnFail": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "5UoNOxHgFvMGLXsW",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "books-no.app.n8n.cloud",
+            "user-agent": "curl/7.81.0",
+            "content-length": "17",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "103.178.143.212",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "IN",
+            "cf-ray": "98183d77b4e626cb-BOM",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/x-www-form-urlencoded",
+            "x-forwarded-for": "103.178.143.212, 172.71.198.111",
+            "x-forwarded-host": "books-no.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-49-5f8b879977-tf6vm",
+            "x-is-trusted": "yes",
+            "x-real-ip": "103.178.143.212"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "{\"hello\":\"world\"}": ""
+          },
+          "webhookUrl": "https://books-no.app.n8n.cloud/webhook-test/webhook-window",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "VirusTotal HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VirusTotal HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "cd0b7473-e873-4f45-8948-7b61c8838c52",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ae16d6f5e6b2f2001f79efebc0b19d3a5f272b18961810e2ffd21e4a6b180ed9"
+  },
+  "id": "hWNkNNiiH3PAjF43",
+  "tags": []
+}
